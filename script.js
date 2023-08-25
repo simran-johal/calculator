@@ -1,5 +1,25 @@
 
+// PASS NUMBERS EVENT FIRED ON TO DISPLAYING FUNCTION
 
+
+
+let screenDisplay = document.getElementById("screen")
+function displayFunction({ currentNumber, primaryNumber, primaryOperator, secondaryNumber, result }) {
+
+    let displayText = ""
+
+    console.log("display CURRENT NUMBER", currentNumber)
+    console.log("display PRIMARY NUMBER", primaryNumber)
+    console.log("display SECONDARY NUMBER", secondaryNumber)
+    console.log("display PRIMARY OPERATOR", primaryOperator)
+    console.log("end")
+    
+    
+    // PRIMARY NUMBER, SECONDARY NUMBER AND OPERATOR COMING THROUGH UNDEFINED
+
+    
+    screenDisplay.innerText = displayText
+}
 
 
 
@@ -12,6 +32,7 @@ let primaryNumber = null
 let secondaryNumber = null
 let primaryOperator = null
 let buttonValue = [] 
+
 
 let currentNumber
 let currentOperator
@@ -44,7 +65,8 @@ buttons.forEach((button) => {
             // CREATES A BUTTONVAL ARRAY THEN TURNS INTO NUMBER AND JOINS AND ASSIGNS TO CURRENTNUM
             buttonValue.push(Number(event.target.innerHTML))
             currentNumber = Number(buttonValue.join(""))
-       
+            displayFunction( {currentNumber} )
+            
             console.log("current number", currentNumber)
             
         }
@@ -53,6 +75,7 @@ buttons.forEach((button) => {
        if (/[\+\-x÷]/.test(event.target.innerHTML)) {
             
             operatorSelected = true
+            currentOperator = event.target.innerHTML
 
             switch (event.target.innerHTML) {
                 case '+':
@@ -69,10 +92,6 @@ buttons.forEach((button) => {
                     break;
             }
             
-            
-
-
-
             if (primaryNumber == null) {
                 primaryNumber = currentNumber;
             } else if (primaryNumber !== null && secondaryNumber == null) {
@@ -80,14 +99,9 @@ buttons.forEach((button) => {
             
             buttonValue = []
             currentNumber = null;
-            console.log("current number", currentNumber)
-            console.log("primary number", primaryNumber)
-            console.log("Secondary number", secondaryNumber)
-            console.log("primary operator", primaryOperator)
+            displayFunction({ primaryNumber, secondaryNumber, primaryOperator})
+            
        }
-
-//------------------------------------------------------------------------------------
-
 
        // EQUALS SELECTED LOGIC TO USE OUTPUTS OF OPERATOR/NUMBER LOGIC ABOVE
        if (/=/.test(event.target.innerHTML)) {
@@ -105,7 +119,7 @@ buttons.forEach((button) => {
 
 //------------------------------------------------------------------------------------
 
-
+//FUNCTIONS TO EXECUTE CALCULATIONS
 
 let result
 let operatorObj = { 
@@ -120,28 +134,23 @@ function runOperate(primOper, primNum, seconNUM) {
     
     result = operatorObj[primOper](primNum, seconNUM)
     console.log("runOperate result", result)
-    return result
-
-}
-// RUNOPERATE FUNCTION WORKS
- console.log("personal checks: runOperate check", runOperate("divide", 10, 20)) 
- 
-
-
-
-//------------------------------------------------------------------------------------
-
-
-
-
-
-// PASS NUMBERS EVENT FIRED ON TO DISPLAYING FUNCTION
-let screenDisplay = document.getElementById("screen")
-function displayFunction(primaryNumber, primaryOperator, secondaryNumber ) {
-
-
-
-    screenDisplay.innerText = primaryNumber + primaryOperator + secondaryNumber
+    displayFunction({ result })
     
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
