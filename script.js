@@ -4,27 +4,45 @@
 
 
 let screenDisplay = document.getElementById("screen")
-function displayFunction({ currentNumber, primaryNumber, primaryOperator, secondaryNumber, result }) {
+function displayFunction({ currentNumber = "", primaryNumber = "", currentOperator = "", secondaryNumber = "", result = "" }) {
 
     let displayText = ""
 
-    console.log("display CURRENT NUMBER", currentNumber)
-    console.log("display PRIMARY NUMBER", primaryNumber)
-    console.log("display SECONDARY NUMBER", secondaryNumber)
-    console.log("display PRIMARY OPERATOR", primaryOperator)
-    console.log("end")
     
     
-    // PRIMARY NUMBER, SECONDARY NUMBER AND OPERATOR COMING THROUGH UNDEFINED
+    //STATE: EQUALS - NO CURRENTNUM, BUT HAVE ALL THE REST
+    if (result !== "") {
+        displayText = `${primaryNumber} ${currentOperator} ${secondaryNumber} = ${result}`;
+    } 
+    //STATE: NEW CURRENTNUM BUT PRIMNUM AND CURRENTOPERATOR NOT EMPTY
+    else if (currentNumber !== "" && primaryNumber !== "" && currentOperator !== "") {
+        displayText = `${primaryNumber} ${currentOperator} ${currentNumber}`;
+    }
+    //STATE: CHOSEN OPERATOR - HAVE A PRIMARYNUM + HAVE A CURRENTOPERATOR
+    else if (primaryNumber !== "" && currentOperator !== "") {
+        displayText = `${primaryNumber} ${currentOperator}`;
+    }
+    //STATE: 1ST NO - DISPLAY CURRENT NUMBER UPDATING EACH TIME NO. CLICKED (PRIMARYNUM IS EMPTY)
+    else if (currentNumber !== "") {
+        displayText = `${currentNumber}`;
+    }
+
+
+
+    //START STATE
+    //STATE: 1ST NO - DISPLAY CURRENT NUMBER UPDATING EACH TIME NO. CLICKED (PRIMARYNUM IS EMPTY)
+    //STATE: CHOSEN OPERATOR - HAVE A PRIMARYNUM + HAVE A CURRENTOPERATOR
+    //STATE: NEW CURRENTNUM BUT PRIMNUM AND CURRENTOPERATOR NOT EMPTY
+    //STATE: EQUALS - NO CURRENTNUM, BUT HAVE ALL THE REST
+
+    
+    
 
     
     screenDisplay.innerText = displayText
 }
 
-
-
-
-
+//------------------------------------------------------------------------------------
 
 // FUNCTIONS THAT POPULATE THE DISPLAY
 // ADD LISTENERS TO ALL BUTTONS
@@ -65,7 +83,7 @@ buttons.forEach((button) => {
             // CREATES A BUTTONVAL ARRAY THEN TURNS INTO NUMBER AND JOINS AND ASSIGNS TO CURRENTNUM
             buttonValue.push(Number(event.target.innerHTML))
             currentNumber = Number(buttonValue.join(""))
-            displayFunction( {currentNumber} )
+            displayFunction( {currentNumber, primaryNumber, currentOperator, secondaryNumber, result} )
             
             console.log("current number", currentNumber)
             
@@ -75,7 +93,7 @@ buttons.forEach((button) => {
        if (/[\+\-x÷]/.test(event.target.innerHTML)) {
             
             operatorSelected = true
-            currentOperator = event.target.innerHTML
+            console.log("current operator", currentOperator = event.target.innerHTML)
 
             switch (event.target.innerHTML) {
                 case '+':
@@ -93,13 +111,13 @@ buttons.forEach((button) => {
             }
             
             if (primaryNumber == null) {
-                primaryNumber = currentNumber;
+                console.log("primary number", primaryNumber = currentNumber)
             } else if (primaryNumber !== null && secondaryNumber == null) {
-                secondaryNumber = currentNumber }
+                console.log("secondary number", secondaryNumber = currentNumber) }
             
             buttonValue = []
-            currentNumber = null;
-            displayFunction({ primaryNumber, secondaryNumber, primaryOperator})
+            currentNumber = "";
+            displayFunction({ currentNumber, primaryNumber, currentOperator, secondaryNumber, result})
             
        }
 
@@ -108,7 +126,7 @@ buttons.forEach((button) => {
 
         equalSelected = true
         secondaryNumber = currentNumber
-        runOperate(primaryOperator, primaryNumber, secondaryNumber)
+        runOperate(primaryOperator, primaryNumber, secondaryNumber,)
         
        }
 
@@ -134,7 +152,7 @@ function runOperate(primOper, primNum, seconNUM) {
     
     result = operatorObj[primOper](primNum, seconNUM)
     console.log("runOperate result", result)
-    displayFunction({ result })
+    displayFunction({ currentNumber, primaryNumber, currentOperator, secondaryNumber, result })
     
 }
 
