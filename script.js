@@ -6,7 +6,8 @@ let buttons = document.querySelectorAll('.buttons')
 
 let primaryNumber = null; 
 let secondaryNumber = null;
-let primaryOperator = null;
+let displayOperator = null;
+let calcOperator = null
 let currentNumber = "";
 let result = null;
 
@@ -19,37 +20,37 @@ let operatorObj = {
 
 
 
-function displayFunction({ currentNumber = "", primaryNumber = "", primaryOperator = "", secondaryNumber = "", result = "" }) {
+function displayFunction({ currentNumber = "", primaryNumber = "", displayOperator = "", secondaryNumber = "", result = "" }) {
 
     let displayTextPrimary = ""
     let displayTextSecondary = ""
   
     if (result !== null) {                                                          
-        displayTextPrimary = `${primaryNumber} ${primaryOperator} ${secondaryNumber}`; // state equals clicked, no currentNumber but have the rest
+        displayTextPrimary = `${primaryNumber} ${displayOperator} ${secondaryNumber}`; // state equals clicked, no currentNumber but have the rest
         displayTextSecondary = `= ${result}`    
     } 
    
-    else if (currentNumber !== "" && primaryNumber !== null && primaryOperator !== null) { // state new currentNum but primaryNum and currentOperator too
-        displayTextPrimary = `${primaryNumber} ${primaryOperator} ${currentNumber}`;
+    else if (currentNumber !== "" && primaryNumber !== null && displayOperator !== null) { // state new currentNum but primaryNum and currentOperator too
+        displayTextPrimary = `${primaryNumber} ${displayOperator} ${currentNumber}`;
     }
     
-    else if (primaryNumber !== null && primaryOperator !== null) { // state have a primaryNumber and cprimaryOperator 
-        displayTextPrimary = `${primaryNumber} ${primaryOperator}`;
+    else if (primaryNumber !== null && displayOperator !== null) { // state have a primaryNumber and cprimaryOperator 
+        displayTextPrimary = `${primaryNumber} ${displayOperator}`;
     }
     
     else displayTextPrimary = currentNumber // state displaying the current number as we click updating it
 
-    // UNDERSTAND HOW ITS BUILDING A NUMBER WHEN COULDNT DO THIS TO BEGIN WITH
+    
 
     screenNumPrimary.innerText = displayTextPrimary
     screenNumSecondary.innerText = displayTextSecondary
 
 }
 
-function resetCalculator() {
-    primaryNumber = null;
+function resetCalculator(newPrimary = null) {
+    primaryNumber = newPrimary
     secondaryNumber = null;
-    primaryOperator = null;
+    displayOperator = null;
     currentNumber = ""
     result = null; 
    
@@ -60,55 +61,61 @@ buttons.forEach((button) => {
 
        const content = event.target.innerHTML // capture the inner HTML
 
-       if (/^[0-9]$/.test(content)) { // handling numbers //
+       if (/^[0-9]$/.test(content)) { // HANDLING NUMBERS //
 
             if (result !== null) { // if already have result
                 resetCalculator()
-            } currentNumber += content // if dont have result
-            displayFunction({ currentNumber, primaryNumber, primaryOperator, secondaryNumber, result })
+            } currentNumber += content // if dont have result appending with new number 
+            displayFunction({ currentNumber, primaryNumber, displayOperator, secondaryNumber, result })
         }
        
-       else if (/[\+\-x÷]/.test(content)) { // handling operators //
+       else if (/[\+\-x÷]/.test(content)) { // HANDLING OPERATORS //
             
-            if (result !== null) { // where already have a result 
+            if (result !== null) { // already have a result assign it to primaryNumber
                 primaryNumber = result
-                resetCalculator()
+                resetCalculator(result)
             }
             if (primaryNumber === null) { // no primary number means no result
                 primaryNumber = currentNumber // so set your current number to primary
             } else {
                 secondaryNumber = currentNumber // if result isnt set to primary + already have a primary
             }
-            primaryOperator = content
-            currentNumber = ""
-            displayFunction({ currentNumber, primaryNumber, primaryOperator, secondaryNumber, result })
+            
 
             switch (content) {
                 case '+':
-                    primaryOperator = 'add';
+                    calcOperator = 'add';
                     break;
                 case '-':
-                    primaryOperator = 'subtract';
+                    calcOperator = 'subtract';
                     break;
                 case 'x':
-                    primaryOperator = 'multiply';
+                    calcOperator = 'multiply';
                     break;
                 case '÷':
-                    primaryOperator = 'divide';
+                    calcOperator = 'divide';
                     break;
             }
 
+            displayOperator = content
+            currentNumber = ""
+            displayFunction({ currentNumber, primaryNumber, displayOperator, secondaryNumber, result })
+            
        }
 
-       else if (/=/.test(event.target.innerHTML)) { // handling equals //
+       else if (/=/.test(event.target.innerHTML)) { // HANDLING EQUALS //
 
-            if (primaryNumber !== null && primaryOperator !== null) { // we have a primary num and operator
-                secondaryNumber = currentNumber // assign current num to secondary number
-                runOperate(primaryOperator, parseFloat(primaryNumber), parseFloat(secondaryNumber)) // pass it all to operation function
+            if (primaryNumber !== null && calcOperator !== null) { // we have a primary num and operator
+                
+                console.log("primary num", primaryNumber)
+                console.log("operator", calcOperator)
+                console.log("secondary num", secondaryNumber = currentNumber) // assign current num to secondary number
+                runOperate(calcOperator, parseFloat(primaryNumber), parseFloat(secondaryNumber)) // pass it all to runOperate + convert strings to numbers
+                
             }
     
             currentNumber = ""
-            displayFunction({ currentNumber, primaryNumber, primaryOperator, secondaryNumber, result })
+            displayFunction({ currentNumber, primaryNumber, displayOperator, secondaryNumber, result })
        }
 
 
@@ -117,10 +124,10 @@ buttons.forEach((button) => {
 })
 
 
-function runOperate(primOper, primNum, seconNUM) {
-    result = operatorObj[primOper](primNum, seconNUM)
-    currentNumber = ""
-    displayFunction({ currentNumber, primaryNumber, primaryOperator, secondaryNumber, result })
+function runOperate(calcOper, primNum, seconNUM) {
+    result = operatorObj[calcOper](primNum, seconNUM)
+    displayFunction({ currentNumber, primaryNumber, displayOperator, secondaryNumber, result })
+    
     
 }
 
@@ -147,7 +154,6 @@ function runOperate(primOper, primNum, seconNUM) {
 
 
 
-// GO THROUGH THE CODE AND ADJUST IT BACK TO THE WAYS THAT MADE SENSE TO ME EG.
-    // PASSING ARGUMENTS TO DISPLAY FUNCTION 
-    // USING THE METHODS APPROACH TO DOING THE CALCULATION
+// COMPLETE CALCULATOR TO WORK 
 // ADD DELETE AND CLEAR LOGIC
+// COMPLETE UI
