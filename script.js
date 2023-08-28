@@ -17,7 +17,6 @@ let calcOperator = null
 let currentNumber = "";
 let result = null;
 let chainedOperation = false
-
 const numbersRegex = /^[0-9]$/
 const operatorsRegex = /[\+\-x÷]/
 
@@ -50,12 +49,15 @@ function displayFunction({ currentNumber = "", primaryNumber = "", displayOperat
 }
 
 function resetCalculator(newPrimary = null, newDisplayOperator = null) {
+    console.log("resetCalculator called")
     primaryNumber = newPrimary
     secondaryNumber = null;
     displayOperator = newDisplayOperator
     currentNumber = ""
     result = null; 
     chainedOperation = false
+    console.log("variables reset")
+    consoleLogger()
    
 }
 
@@ -152,6 +154,19 @@ function consoleLogger() {
 
 }
 
+let resetButton = document.getElementById('reset-button')
+let clearButton = document.getElementById('clear-button')
+
+clearButton.addEventListener('click', function () {
+    currentNumber = ""
+    displayFunction({currentNumber, primaryNumber, displayOperator, secondaryNumber, result})
+})
+
+
+resetButton.addEventListener('click', function () {
+    resetCalculator()
+    displayFunction({currentNumber, primaryNumber, displayOperator, secondaryNumber, result})
+})
 
 
 
@@ -171,9 +186,6 @@ function consoleLogger() {
 
 
 
-
-
-// ADD DELETE AND CLEAR LOGIC
 // FIRST NUMBER CANT BE ZERO
 // COMPLETE UI
 // BETTER WAY TO WRITE MY LOGIC NOT ALL IN THE ONE EVENT HANDLER
