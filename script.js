@@ -3,6 +3,9 @@
 const screenNumPrimary = document.getElementById("screen-num-primary")
 const screenNumSecondary = document.getElementById("screen-num-secondary")
 const buttons = document.querySelectorAll('.buttons')
+const resetButton = document.getElementById('reset-button')
+const clearButton = document.getElementById('clear-button')
+
 const operatorObj = { 
     add: (num1,num2) => num1 + num2,
     subtract: (num1,num2) => num1 - num2,
@@ -15,6 +18,7 @@ let secondaryNumber = null;
 let displayOperator = null;
 let calcOperator = null
 let currentNumber = "";
+let resultToRound
 let result = null;
 let chainedOperation = false
 const numbersRegex = /^[0-9]$/
@@ -137,7 +141,8 @@ function handleEquals() {
 }
 
 function runOperate(calcOper, primaryNum, secondaryNUM) {
-    result = operatorObj[calcOper](primaryNum, secondaryNUM)
+    resultToRound = operatorObj[calcOper](primaryNum, secondaryNUM)
+    result = Math.round(resultToRound * 100) / 100
     displayFunction({ currentNumber, primaryNumber, displayOperator, secondaryNumber, result })
     
     
@@ -154,14 +159,12 @@ function consoleLogger() {
 
 }
 
-let resetButton = document.getElementById('reset-button')
-let clearButton = document.getElementById('clear-button')
+
 
 clearButton.addEventListener('click', function () {
     currentNumber = ""
     displayFunction({currentNumber, primaryNumber, displayOperator, secondaryNumber, result})
 })
-
 
 resetButton.addEventListener('click', function () {
     resetCalculator()
