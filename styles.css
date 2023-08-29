@@ -11,25 +11,39 @@ html {
 body {
     font-family: 'Baskervville', serif; 
     color: black; 
-    background: linear-gradient(#f2f2f2,#c3c3c3) 
+    background: linear-gradient(#f2f2f2,#c3c3c3) ;
+    margin: 0;
+    padding: 0;
+    
     
 }
 
-header,footer {
+header, footer {
     display: flex;
     justify-content: center;
+     /* border: solid 1px black */
+    margin: 0;
+    padding: 0;
     
-    height: 100px;
+}
 
+h1 {
+    margin: 40px;
+    padding: 0;
+    
 }
 
 main {
     display: flex ;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     gap: 5px;
-    height: 500px;
+    min-height: 100vh;
+    padding-top: 0
+    /* border: solid 1px red */
+    
+   
     
 }
 
@@ -37,13 +51,14 @@ main {
 
 #calculator-whole {
     
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 10px;
+    margin-top: 0;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
     padding-bottom: 0px;
-    height: 400px;
+    height: 600px;
     border-radius: 15px;
-    width: 220px;
+    width: 320px;
     box-shadow: 
         10px 10px 13px -3px rgba(0,0,0,0.18);
        
@@ -53,11 +68,9 @@ main {
 
 #screen {
     margin: 5px;
-    margin-bottom: 10px;
+    margin-bottom: 25px;
     padding: 5px;;
-    height: 100px;
-    
-
+    height: 175px;    
     border-radius: 20px;
     border-width: 1px;
     background-color: #f5f5f5;
@@ -67,8 +80,6 @@ main {
     color: #3c4043;
     border: none;
     
-
-
 }
 
 #screen-num-primary {
@@ -76,7 +87,8 @@ main {
     justify-content: top;
     align-items: left;
     color: grey;
-    font-size: 30px;
+    font-size: 25px; 
+    font-weight: 500;
     margin: 5px;
 }
 
@@ -85,38 +97,28 @@ main {
     justify-content: top;
     align-items: right;
     color: black;
-    font-size: 30px;
+    font-size: 25px;
+    font-weight: 600;
     margin: 5px;
 }
-
-
 
 
 #buttons-grid {
     margin-left: 5px;
     margin-right: 5px;
     margin-top: 5px;
-     
     display: grid;
     grid-template-columns: repeat(4,1fr);
     grid-template-rows: repeat(5,1fr);
-    height: 250px;
-    row-gap: 5px;
-    column-gap: 5px;
+    height: 350px;
+    row-gap: 10px;;
+    column-gap: 10px;
     
-
-    
-}
-
-.operators {
-    background-color: #982aee
-
 }
 
 .buttons {
     border-radius: 20px;
     border-width: 1px;
-    background-color: #f4f5f6;
     box-shadow: 
         -3px -3px 5px 0px rgba(255,255,255,0.90),
          3px 3px 5px 0px rgba(0, 0, 0, 0.10);
@@ -128,7 +130,6 @@ main {
 .buttons:hover {
     border-radius: 20px;
     border-width: 1px;
-    background-color: #ffffffcf;
     box-shadow: 
         -3px -3px 5px 0px rgba(255,255,255,0.90),
          3px 3px 5px 0px rgba(0, 0, 0, 0.10);
@@ -138,11 +139,106 @@ main {
     
 }
 
-#reset-button, #clear-button {
+
+
+.operator-buttons {
+    background-color: rgb(152, 42, 238, 0.5)
+
+}
+
+.operator-buttons:hover {
+    background-color: rgb(169, 77, 239)
+
+}
+
+.number-buttons {
+    background-color: #f4f5f6;
+
+}
+
+.number-buttons:hover {
+    background-color: #ffffffcf;
+
+}
+
+
+.clear-reset-buttons {
     background-color: rgb(254, 184, 45, 0.7)
 }
 
-#reset-button:hover, #clear-button:hover {
+.clear-reset-buttons:hover {
     background-color: rgb(254, 184, 45, 0.9)
 }
 
+
+@media (max-width: 600px) {
+
+    #calculator-whole {
+    
+         padding-left: 10px;
+         padding-right: 10px;
+         padding-top: 10px; 
+         padding-bottom: 0px;
+         height: 400px;
+         border-radius: 15px;
+         width: 220px; 
+         box-shadow: 
+             10px 10px 13px -3px rgba(0,0,0,0.18);
+         background: linear-gradient(#f8f8f8,#e6e8ea)
+     }
+     
+     #screen {
+         margin: 5px;
+         margin-bottom: 10px;
+         padding: 5px;;
+         height: 100px; 
+         border-radius: 20px;
+         border-width: 1px;
+         background-color: #f5f5f5;
+         box-shadow: 
+             -3px -3px 5px 0px rgba(255,255,255, 0.1),
+              3px 3px 5px 0px rgba(0, 0, 0, 0.10);
+         color: #3c4043;
+         border: none;
+         
+     }
+     
+     #screen-num-primary {
+         display: flex;
+         justify-content: top;
+         align-items: left;
+         color: grey;
+         font-size: 15px; 
+         font-weight: 500;
+         margin: 5px;
+     }
+     
+     #screen-num-secondary {
+         display: flex;
+         justify-content: top;
+         align-items: right;
+         color: black;
+         font-size: 15px; 
+         font-weight: 600;
+         margin: 5px;
+     }
+     
+     
+     #buttons-grid {
+         margin-left: 5px;
+         margin-right: 5px;
+         margin-top: 5px;
+         display: grid;
+         grid-template-columns: repeat(4,1fr);
+         grid-template-rows: repeat(5,1fr);
+         height: 250px;
+         row-gap: 5px;
+         column-gap: 5px;
+        
+     }
+
+
+
+}
+
+@media (max-width: 600px)
