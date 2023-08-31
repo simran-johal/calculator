@@ -1,5 +1,12 @@
 
 
+
+
+
+
+
+
+
 const screenNumPrimary = document.getElementById("screen-num-primary")
 const screenNumSecondary = document.getElementById("screen-num-secondary")
 const buttons = document.querySelectorAll('.buttons')
@@ -73,6 +80,12 @@ buttons.forEach((button) => {
        if (numbersRegex.test(content)) handleNumbers(content) 
        else if (operatorsRegex.test(content)) handleOperators(content)
        else if (/=/.test(event.target.innerHTML)) handleEquals()
+       
+       
+       if (result !== null && !chainedOperation !== null) {
+        displayFunction({ currentNumber, primaryNumber, displayOperator, secondaryNumber, result})
+       }
+       
 
     })
 
@@ -80,19 +93,24 @@ buttons.forEach((button) => {
 
 function handleNumbers(content) {
 
+    
+   
     if (result !== null && !chainedOperation) { // if already have result
         resetCalculator()
     } else if (chainedOperation) {
         resetCalculator(primaryNumber, displayOperator)
     }  
     
+  
     currentNumber += content // if dont have result appending with new number 
     displayFunction({ currentNumber, primaryNumber, displayOperator, secondaryNumber, result })
+    consoleLogger() 
 
-        consoleLogger()
 }
 
 function handleOperators(content) {
+
+
     if (result !== null) { // already have a result assign it to primaryNumber
         primaryNumber = result
         resetCalculator(result)
@@ -122,22 +140,26 @@ function handleOperators(content) {
     displayOperator = content
     currentNumber = ""
     displayFunction({ currentNumber, primaryNumber, displayOperator, secondaryNumber, result })
+    consoleLogger()    
 
-        consoleLogger()
+
 }
 
 function handleEquals() {
-    if (primaryNumber !== null && calcOperator !== null) { // we have a primary num and operator
+
+    const primaryNum = parseFloat(primaryNumber)
+    const currentNum = parseFloat(currentNumber)
+
+    if (!isNaN(primaryNum) && !isNaN(currentNum) && calcOperator !== null) { // we have a primary num/current num and operator
         secondaryNumber = currentNumber // assign current num to secondary number
-        runOperate(calcOperator, parseFloat(primaryNumber), parseFloat(secondaryNumber)) // pass it all to runOperate + convert strings to numbers
-        
+        runOperate(calcOperator, primaryNum, secondaryNumber) // pass it all to runOperate + convert strings to numbers
+        consoleLogger()
     }
 
     currentNumber = ""
     displayFunction({ currentNumber, primaryNumber, displayOperator, secondaryNumber, result })
     chainedOperation = false
-
-        consoleLogger()
+    consoleLogger()
 }
 
 function runOperate(calcOper, primaryNum, secondaryNUM) {
