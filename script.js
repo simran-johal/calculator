@@ -59,6 +59,7 @@ function displayFunction({ currentNumber = "", primaryNumber = "", displayOperat
 
 }
 
+
 function resetCalculator(newPrimary = null, newDisplayOperator = null) {
     console.log("resetCalculator called")
     primaryNumber = newPrimary
@@ -93,7 +94,13 @@ buttons.forEach((button) => {
 
 function handleNumbers(content) {
 
-    
+    if (currentNumber === "0" && content === "0") { // if whole currentNumber is 0 then added number "content" is 0 
+        currentNumber = ""
+    }
+
+    if (currentNumber === "0" && content !== "0") { // if whole currentNumber is 0 but added num content is not 
+        currentNumber = "";
+    }
    
     if (result !== null && !chainedOperation) { // if already have result
         resetCalculator()
