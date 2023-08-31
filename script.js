@@ -14,7 +14,7 @@ const resetButton = document.getElementById('reset-button')
 const clearButton = document.getElementById('clear-button')
 
 const operatorObj = { 
-    add: (num1,num2) => num1 + num2,
+    add: (num1,num2) => parseFloat(num1) + parseFloat(num2), 
     subtract: (num1,num2) => num1 - num2,
     divide: (num1,num2) => num1 / num2,
     multiply: (num1,num2) => num1 * num2,
@@ -108,12 +108,17 @@ function handleNumbers(content) {
         resetCalculator(primaryNumber, displayOperator)
     }  
     
-  
+    
     currentNumber += content // if dont have result appending with new number 
     displayFunction({ currentNumber, primaryNumber, displayOperator, secondaryNumber, result })
     consoleLogger() 
 
+    
+  
+   
+
 }
+
 
 function handleOperators(content) {
 
@@ -126,6 +131,7 @@ function handleOperators(content) {
     if (primaryNumber !== null && currentNumber !== "") { // you have a primary number and a new number
 
         secondaryNumber = currentNumber; // where no result but have primary, current number = secondary number
+
         runOperate(calcOperator, parseFloat(primaryNumber), parseFloat(secondaryNumber)); // perform the operation
         primaryNumber = result; // now result becomes the new primary number
         chainedOperation = true
@@ -159,7 +165,7 @@ function handleEquals() {
 
     if (!isNaN(primaryNum) && !isNaN(currentNum) && calcOperator !== null) { // we have a primary num/current num and operator
         secondaryNumber = currentNumber // assign current num to secondary number
-        runOperate(calcOperator, primaryNum, secondaryNumber) // pass it all to runOperate + convert strings to numbers
+        runOperate(calcOperator, primaryNum, currentNumber) // pass it all to runOperate + convert strings to numbers
         consoleLogger()
     }
 
